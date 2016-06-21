@@ -2,7 +2,6 @@ function Drug(name, min, max, scarcity) {
     this.name = name;
     this.min = min;
     this.max = max;
-    this.scarcity = scarcity;
 }
 
 Drug.prototype.calculatePrice = function() {
@@ -11,7 +10,7 @@ Drug.prototype.calculatePrice = function() {
 };
 
 Drug.prototype.calculateQuantity = function() {
-    var quantity = Math.random() * (this.scarcity - 1);
+    var quantity = Math.random() * (50 - 1);
     return Math.round(quantity);
 };
 
@@ -24,17 +23,33 @@ var drugList = [
     opium = new Drug("Opium", 500, 10000, 20)
 ];
 
-var drugAvailability = drugList.filter(function(drug) {
-    return quantity = drug.calculateQuantity() > 5;}).map(function(drug) {
-        $("#menuTable").append("<tr><td>"+drug.name+"</td><td>$</td><td>"
-        +drug.calculatePrice().toString()+"</td</tr>");
-    });
-    
-$("#menuTable td:contains([\d])").css("text-align", "right");
+var drugMenu = drugList.map(function(drug) {
+    return menu = {
+        name: drug.name,
+        price: drug.calculatePrice(),
+        quantity: drug.calculateQuantity()
+    }}).filter(function(drug) {
+        return drug.quantity >= 5;
+        }).map(function(drug) {
+                console.log(drug);
+                $("#menuTable").append(
+                "<tr><td>"+drug.name+
+                "</td><td>$</td><td>"+drug.price+
+                "</td><td>"+drug.quantity+"</td></tr>");
+            });
+
+
 
 /* TODO
     - Rebuild menu to allow drug selection
     - Add Available & Inventory to menu table
     - Build buy/sell mechanism
     - Create form that appears right of menu
+
+    TO INCLUDE SCARCITY:
+    - add scarcity value as last parameter of each drug in drugList
+    - Add the following to object Drug():
+        this.scarcity = scarcity;
+    - Replace statement in Drug.prototype.calculateQuantity():
+        var quantity = Math.random() * (this.scarcity - 1);
 */
