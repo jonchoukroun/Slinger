@@ -1,0 +1,38 @@
+@import url(https://fonts.googleapis.com/css?family=Dorsa);
+
+body {
+    background-image:
+    url(https://www.visualnews.com/wp-content/uploads/2015/02/Retrowave-1.jpg);
+    color: #008080;
+    font-family: 'Century Gothic';
+}
+
+h1 {
+    color: black;
+    text-shadow:
+        -2px -2px 0 #8fe1ff,
+        2px -2px 0 #8fe1ff,
+        -2px 2px 0 #8fe1ff,
+        2px 2px 0 #8fe1ff;
+    font-family: 'Dorsa', 'Baskerville';
+    font-variant: small-caps;
+    font-size: 8em;
+}
+
+#mainScreen {
+    display: inline-block;
+    padding: 10px;
+    margin-left: 25px;
+    background: black;
+    color: #8fe1ff;
+    border: 1px solid #8fe1ff;
+}
+
+td {
+    padding: 0.3rem;
+    column-width: auto;
+}
+
+#colIDs {
+    font-weight: bold;
+    }
