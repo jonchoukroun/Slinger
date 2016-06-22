@@ -28,6 +28,10 @@ h1 {
     border: 1px solid #8fe1ff;
 }
 
+#mainScreen h3 {
+    text-decoration: underline;
+}
+
 td {
     padding: 0.3rem;
     column-width: auto;
