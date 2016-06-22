@@ -21,7 +21,7 @@ class Station {
 
     // Announce subway Station
     announceStation() {
-        return this.stationName;
+        return $("#mainScreen").prepend("<h3>"+this.stationName+"</h3>");
     }
 
     /* Random event function:
@@ -42,9 +42,8 @@ var stationList = [
     brooklyn = new Station("Brooklyn")
 ];
 
-var test = stationList.map(function(station) {
-    console.log(station.announceStation());
-});
+window.onload = ghetto.announceStation();
+
 
 // Create Drug class (see bottom comment about Scarcity)
 class Drug {
