@@ -1,5 +1,51 @@
 // JavaScript for DrugWars (script.js)
 
+// Create Player class
+class Player {
+    constructor(playerName, money, inventory) {
+        this.playerName = playerName;
+        this.money = money;
+        this.inventory = inventory;
+    }
+
+    /*
+    Class functions
+    */
+}
+
+// Create Station class
+class Station {
+    constructor(stationName) {
+        this.stationName = stationName;
+    }
+
+    // Announce subway Station
+    announceStation() {
+        return this.stationName;
+    }
+
+    /* Random event function:
+        - Officer Hardass
+        - Drug price outlier
+        - Mugging
+        - Purchase offer (guns, coats)
+    */
+}
+
+// Create instances of the subway Station class
+var stationList = [
+    bronx = new Station("The Bronx"),
+    ghetto = new Station("The Ghetto"),
+    centralPark = new Station("Central Park"),
+    manhattan = new Station("Manhattan"),
+    coneyIsland = new Station("Coney Island"),
+    brooklyn = new Station("Brooklyn")
+];
+
+var test = stationList.map(function(station) {
+    console.log(station.announceStation());
+});
+
 // Create Drug class (see bottom comment about Scarcity)
 class Drug {
     constructor(name, min, max) {
@@ -38,13 +84,11 @@ var drugMenu = drugList.map(function(drug) {
     }}).filter(function(drug) {
         return drug.quantity >= 5;
         }).map(function(drug) {
-                console.log(drug);
                 $("#menuTable").append(
                 "<tr><td>"+drug.name+
                 "</td><td>$</td><td>"+drug.price+
                 "</td><td>"+drug.quantity+"</td></tr>");
             });
-
 
 
 /* TODO
