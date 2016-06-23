@@ -8,9 +8,20 @@ class Player {
         this.inventory = inventory;
     }
 
-    /*
-    Class functions
-    */
+    // Add income to money total
+    addIncome(amount) {
+        return this.money += amount;
+    }
+
+    // Subtract expenditure/loss from money total
+    subtractLoss(amount) {
+        if (this.money > amount) {
+            return this.money -= amount;
+        } else {
+            return this.money = 0;
+        }
+    }
+
 }
 
 // Create Station class
