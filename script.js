@@ -113,6 +113,7 @@ var drugMenu = drugList.map(function(drug) {
             });
 
 /*
+// This function doesn't work, quantity isn't accessible in .map()
 var drugMenu = drugList.filter(function(drug) {
     var quantity = drug.calculateQuantity();
     console.log(drug.name, quantity);
