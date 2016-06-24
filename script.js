@@ -1,5 +1,11 @@
 // JavaScript for DrugWars (script.js)
 
+
+// Generates random integer between min and max (inclusive)
+var getRandom = function(min, max) {
+    return (Math.floor(Math.random() * (max - min) +min));
+}
+
 // Create Player class
 class Player {
     constructor(playerName, money, inventory) {
@@ -43,17 +49,24 @@ class Station {
     */
 }
 
-// Create instances of the subway Station class
-var stationList = [
-    bronx = new Station("The Bronx"),
-    ghetto = new Station("The Ghetto"),
-    centralPark = new Station("Central Park"),
-    manhattan = new Station("Manhattan"),
-    coneyIsland = new Station("Coney Island"),
-    brooklyn = new Station("Brooklyn")
-];
 
-window.onload = ghetto.announceStation();
+function getStation() {
+    // Create instances of the subway Station class
+    var stationList = [
+        bronx = new Station("The Bronx"),
+        ghetto = new Station("The Ghetto"),
+        centralPark = new Station("Central Park"),
+        manhattan = new Station("Manhattan"),
+        coneyIsland = new Station("Coney Island"),
+        brooklyn = new Station("Brooklyn")
+    ];
+    
+    // Randomly call station
+    var i = getRandom(0, stationList.length);
+    stationList[i].announceStation();
+}
+
+window.onload = getStation()
 
 
 // Create Drug class (see bottom comment about Scarcity)
@@ -66,13 +79,11 @@ class Drug {
 
     // Call these 2 functions at each Subway stop
     calculatePrice() {
-        var price = Math.random() * (this.max - this.min + 1) + this.min;
-        return Math.round(price);
+        return getRandom(this.min, this.max);
     };
 
     calculateQuantity() {
-        var quantity = Math.random() * (50 - 1);
-        return Math.round(quantity);
+        return getRandom(0, 51);
     };
 }
 
@@ -85,6 +96,7 @@ var drugList = [
     speed = new Drug("Speed", 80, 250),
     opium = new Drug("Opium", 500, 10000)
 ];
+
 
 var drugMenu = drugList.map(function(drug) {
     return menu = {
@@ -99,6 +111,18 @@ var drugMenu = drugList.map(function(drug) {
                 "</td><td>$</td><td>"+drug.price+
                 "</td><td>"+drug.quantity+"</td></tr>");
             });
+
+/*
+var drugMenu = drugList.filter(function(drug) {
+    var quantity = drug.calculateQuantity();
+    console.log(drug.name, quantity);
+    return quantity >= 5;
+}).map(function(drug) {
+    $("#menuTable").append(
+    "<tr><td>"+drug.name+"</td><td>$</td><td>"+drug.calculatePrice()+
+    "</td><td>"+drug.quantity+"</td></tr>");
+});
+*/
 
 
 /* TODO
