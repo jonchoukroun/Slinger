@@ -1,23 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Audiowide"
+    rel="stylesheet">
     <link href="_css/main.css" rel="stylesheet" type="text/css" />
     <title>DrugWars Classic</title>
 </head>
 <body>
-    <h1>DrugWars Classic</h1>
-    <div id="mainScreen">
+<div id="container">
+    <!-- Main title -->
+    <header>
+        <h1>DrugWars Classic</h1>
+        <ul>
+            <li><a id="start" href="#">Start New Game</a></li>
+            <li><a href=#">Top Scores</a></li>
+        </ul>
+    </header> <!-- Close page title -->
+
+    <!-- Station navigation bar -->
+    <nav id="stations">
+        <button class="station" id="bronx">The Bronx</button>
+        <button class="station" id="ghetto">The Ghetto</button>
+        <button class="station" id="centralPark">Central Park</button>
+        <button class="station" id="manhattan">Manhattan</button>
+        <button class="station" id="coneyIsland">Coney Island</button>
+        <button class="station" id="brooklyn">Brooklyn</button>
+    </nav>
+
+    <div id="status">
+        <p>Days left: <span id="counter"></span></p>
+        <p>Cash: $ <span id="cash"></span></p>
+        <p>Debt: $ <span id="debt"></span></p>
+        <p>Health: <span id="health"></span></p>
+    </div> <!-- Close player status div -->
+
+
+    <div id="drugMenu">
         <p>Select a drug from below:</p>
         <table id="menuTable">
             <tr id="colIDs">
-                <td>Drug</td>
-                <td></td>
-                <td>Price</td>
-                <td>Available</td>
+                <td id="drugCol">Drug</td>
+                <td id="priceCol">Price</td>
+                <td id="quantCol">Available</td>
             </tr>
         </table>
     </div>
+    <div id="transaction"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="script.js"></script>
+</div> <!-- Close main container -->
 </body>
 </html>
