@@ -8,10 +8,10 @@ var getRandom = function(min, max) {
 
 // Create Player class
 class Player {
-    constructor(playerName, money, inventory) {
-        this.playerName = playerName;
-        this.money = money;
-        this.inventory = inventory;
+    constructor(cash, debt, health) {
+        this.cash = cash;
+        this.debt = debt;
+        this.health = health;
     }
 
     // Add income to money total
@@ -27,8 +27,8 @@ class Player {
             return this.money = 0;
         }
     }
-
 }
+
 
 // Create Station class
 class Station {
@@ -38,7 +38,7 @@ class Station {
 
     // Announce subway Station
     announceStation() {
-        return $("#mainScreen").prepend("<h3>"+this.stationName+"</h3>");
+        $("#location").append(this.stationName);
     }
 
     /* Random event function:
@@ -53,8 +53,8 @@ class Station {
 function getStation() {
     // Create instances of the subway Station class
     var stationList = [
-        bronx = new Station("The Bronx"),
-        ghetto = new Station("The Ghetto"),
+        bronx = new Station("the Bronx"),
+        ghetto = new Station("the Ghetto"),
         centralPark = new Station("Central Park"),
         manhattan = new Station("Manhattan"),
         coneyIsland = new Station("Coney Island"),
@@ -66,7 +66,6 @@ function getStation() {
     stationList[i].announceStation();
 }
 
-window.onload = getStation()
 
 
 // Create Drug class (see bottom comment about Scarcity)
@@ -108,34 +107,33 @@ var drugMenu = drugList.map(function(drug) {
         }).map(function(drug) {
                 $("#menuTable").append(
                 "<tr><td>"+drug.name+
-                "</td><td>$</td><td>"+drug.price+
+                "</td><td>$ "+drug.price+
                 "</td><td>"+drug.quantity+"</td></tr>");
             });
 
-/*
-// This function doesn't work, quantity isn't accessible in .map()
-var drugMenu = drugList.filter(function(drug) {
-    var quantity = drug.calculateQuantity();
-    console.log(drug.name, quantity);
-    return quantity >= 5;
-}).map(function(drug) {
-    $("#menuTable").append(
-    "<tr><td>"+drug.name+"</td><td>$</td><td>"+drug.calculatePrice()+
-    "</td><td>"+drug.quantity+"</td></tr>");
+
+
+// Number of days in game
+var counter = 10;
+
+// Start game and reset stats
+startGame = $('#start').click(function() {
+    $('#counter').empty().append(counter);      
+    player = new Player(2000, 2000, 100);
+    $('#cash').empty().append(player.cash);
+    $('#debt').empty().append(player.debt);
+    $('#health').empty().append(player.health);
 });
-*/
 
 
-/* TODO
-    - Rebuild menu to allow drug selection
-    - Add Available & Inventory to menu table
-    - Build buy/sell mechanism
-    - Create form that appears right of menu
+// Navigate between stations
+navigate = $('.station').click(function() {
+    $(this).toggleClass('clicked').siblings().removeClass('clicked');
+    if (counter > 0) {
+        counter -= 1;
+        $('#counter').empty().append(counter);
+    } else {
+        $('#counter').empty().append("GAME OVER");
+    }
+});
 
-    TO INCLUDE SCARCITY:
-    - add scarcity value as last parameter of each drug in drugList
-    - Add the following to object Drug():
-        this.scarcity = scarcity;
-    - Replace statement in Drug.prototype.calculateQuantity():
-        var quantity = Math.random() * (this.scarcity - 1);
-*/
