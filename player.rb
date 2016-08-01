@@ -69,9 +69,7 @@ class Player
 	end
 end
 
+# Create new player at game start
 new_game = Player.new
-new_game.get_name
-new_game.display
-gets.chomp
-new_game.add_weapon("UTS-15")
-new_game.display
+# new_game.get_name
+# new_game.display
