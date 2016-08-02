@@ -59,7 +59,7 @@ class Player
 		@weapon = weapon
 	end
 
-	def display
+	def display_stats
 		puts "Name: #{@name}"
 		puts "Health: #{@health}%"
 		puts "Cash: $#{@cash}"
@@ -69,7 +69,7 @@ class Player
 	end
 end
 
-# Create new player at game start
-new_game = Player.new
-# new_game.get_name
-# new_game.display
+# # Create new player at game start
+# new_game = Player.new
+# # new_game.get_name
+# # new_game.display
