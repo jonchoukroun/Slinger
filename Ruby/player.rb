@@ -11,7 +11,7 @@ class Player
 	# MVP: max capacity = 30
 	COAT_MAX = 30
 
-	def initialize(health = 100, cash = 2000, debt = 2000)
+	def initialize(health = 100, cash = 5000, debt = 2000)
 		@health = health
 		@cash = cash
 		@debt = debt
