@@ -1,9 +1,15 @@
 class Player
 
 	# Allow other classes to access Player instance variables
+	attr_accessor :name
 	attr_accessor :health
 	attr_accessor :cash
 	attr_accessor :debt
+	attr_accessor :inventory
+	attr_accessor :weapon
+
+	# MVP: max capacity = 30
+	COAT_MAX = 30
 
 	def initialize(health = 100, cash = 2000, debt = 2000)
 		@health = health
@@ -51,8 +57,17 @@ class Player
 		@debt = 0
 	end
 
+	# Returns true if purchase will surpass carrying capacity
+	def full_coat?(add)
+		add + @inventory.each_value.reduce(:+) > COAT_MAX
+	end
+
 	def change_inventory(item, amount)
-		@inventory[item] += amount
+		if full_coat?(amount)
+			puts "You do not have enough room."
+		else
+			@inventory[item] += amount
+		end
 	end
 
 	def display_inventory
@@ -79,3 +94,5 @@ end
 # new_game = Player.new
 # # new_game.get_name
 # # new_game.display
+# new_game.change_inventory(:spike, 29)
+# new_game.change_inventory(:flex, 1)
