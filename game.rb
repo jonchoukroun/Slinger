@@ -33,11 +33,22 @@ class Game
 	end
 
 	def finished?
-		@turns < 0
+		@turns < 0 || @new_player.health == 0
 	end
 
 	def take_turn
 		@turns -=1 
+	end
+
+	def new_turn
+		if finished?
+			puts "Game over!"
+		else
+			@new_player.incur_debt
+			@current_station.display_station
+			puts "You have #{@turns} turns left."
+			game_menu
+		end
 	end
 
 	def make_selection(options)
@@ -56,32 +67,45 @@ class Game
 		end
 	end
 
-	def select_location
+	def buy_implant
+	end
+
+	def sell_implant
+	end
+
+	def black_market
+		puts "\n"
+		@current_station.implants_menu
+	end
+
+	def loan_shark
+		if @new_player.cash >= @new_player.debt
+			@new_player.debt = 0
+			@new_player.cash -= @new_player.debt
+		else
+			puts "You do not have enough cash to pay your debts."
+		end
+	end
+
+	def change_location
 		puts "Where will you go?"
 		new_location = make_selection(@locations)
 		@current_station = Station.new(@locations[new_location - 1])
 		take_turn
-		menu
+		new_turn
 	end
 
-	def menu
-		if finished?
-			puts "Game over!"
-		else
-			@current_station.display_station
-			puts "You have #{@turns} turns left."
-			puts
-			puts "What will you do?"
-			case make_selection(@actions)
-			when 1 then puts "Black Market"
-			when 2 then puts "Loan shark"
-			when 3 then select_location
-			end			
-		end
+	def game_menu
+		puts "What will you do?"
+		case make_selection(@actions)
+		when 1 then black_market
+		when 2 then loan_shark
+		when 3 then change_location
+		end			
 	end
 
 
 end
 
 play = Game.new
-play.menu
+play.new_turn
