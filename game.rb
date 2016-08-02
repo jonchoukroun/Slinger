@@ -23,45 +23,49 @@ class Game
 			'South Central'
 		]
 
-	end
+		# Possible player actions
+		@actions = [
+			'Visit black market',
+			'Pay off loan shark',
+			'Change location'
+		]
 
-	def display
-		puts "Welcome to #{@current_station}"
 	end
 
 	def take_turn
 		@turns -= 1
 	end
 
-	def select_location
-		puts "\n" * 2
-		puts "Moving..."
-		puts "-" * 50
-		(0...@locations.length).each { |n|
-			print "#{n + 1}: #{@locations[n]}\n"
+	def make_selection(options)
+		puts "Select a number from the following menu options:"
+		(0...options.length).each { |n|
+			print "#{n + 1}: #{options[n]}\n"
 		}
+		choice = gets.chomp.to_i
 
-		puts "Select a new location by selecting its number:"
-		new_location = gets.chomp.to_i
-
-		# Ensure selection is valid
-		if new_location == 0 || new_location > 6
-			puts "\n" * 10
-			puts "That is not a valid selection, try again."
-			move_to
+		# Validate player selection
+		if selection.between?(1..range.length)
+			choice
 		else
-			@locations[new_location - 1]
-		end
+			puts "That is not a valid selection. Make sure to enter an integer."
+			make_selection(options)
 	end
 
-	def see_implants_menu
+	def select_location
+		puts "Where will you go?"
+		new_location = make_selection(@locations)
 	end
 
-	def player_turn
+	def menu
+		@current_station.display_station
+		puts "You have #{@turns} turns left."
+		puts
+		puts "What will you do?"
+		action = make_selection(@actions)
 	end
 
 
 end
 
 play = Game.new
-play.move_player
+play.menu
