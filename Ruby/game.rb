@@ -45,6 +45,43 @@ class Game
 		@turns -=1 
 	end
 
+	def start_game
+		puts """
+		#{BREAK}
+		Welcome to $$NEW_TITLE$$
+		------------------------
+
+		Los Angeles, 2070...
+
+		GeneTech Inc. invents the neural implant: nano-bots that supercharge
+		human ability and improve speed, strength, the senses...
+		... at an astronomical cost. 
+
+		The gap between between rich and poor expands,as those who can afford
+		implants become essentially super-human. Poverty and crime surpass
+		levels common in the 3rd world.
+		#{BREAK}
+
+		15 years later...
+
+		A GeneTech engineer leaks the key technology behind neural implantation,
+		creating a booming black market in powerful - but dangerous - implants.
+		These \"NIMs\", engineered in basement labs offer a greater variety
+		of abilities, but the risk of malfunction is high... and sometimes
+		fatal. The high use of NIMs has turned number of the city's desperate
+		into feral killers called NIMscum.
+
+		As a slinger, you buy and sell NIMs on LA's unforgiving streets. You
+		have 30 days to earn as much as possible, but look out for other
+		dealers, GeneTech security, and the NIMscum. Maybe invest in some
+		protection...
+
+		If things get too tough, taking NIMs can always give you an edge - but
+		are they worth the risk?
+		#{BREAK}
+		Good luck, #{@new_player.name}
+		"""
+	end
 	def new_turn
 		if finished?
 			puts "Game over!"
@@ -62,7 +99,7 @@ class Game
 		puts """
 		#{@new_player.name}' Statistics:
 		--------------------------------
-			Health: #{@new_player.health}
+			Health: #{@new_player.health}%
 			Cash: $#{@new_player.cash}
 			Debt: $#{@new_player.debt}
 		"""
@@ -144,4 +181,4 @@ end
 
 play = Game.new
 # play.new_turn
-play.display_stats
+play.start_game
