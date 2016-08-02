@@ -4,7 +4,7 @@ class Player
 		@cash = cash
 		@debt = debt
 
-		# Neural implants:
+		# Player's owned neural implants:
 		@inventory = {
 			"spike": 0,		# Gives one free turn
 			"flex": 0,		# Increase carry capacity for 5 turns
