@@ -42,14 +42,14 @@ class Station
 		puts "Implants available:"
 		puts "-" * 50
 		@implants.each { |i, n|
-			puts "#{i.capitalize}: #{n[Q]} @ $#{n[P]}\n"
+			puts "#{i.capitalize}: #{n[Q]} @ $#{n[P]}\n" unless n[Q] == 0
 		}
 	end
 end
 
-# location = Station.new('Downtown')		# Always start in Downtown
+location = Station.new('Downtown')		# Always start in Downtown
 # location.display_station
 # location.implants_menu
 # location = Station.new(move_to)
 # location.display_station
-# location.implants_menu
+location.implants_menu
