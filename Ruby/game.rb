@@ -3,6 +3,10 @@ require_relative 'player'
 require_relative 'station'
 
 class Game
+	# Constants access implants values
+	Q = 0
+	P = 1
+
 	# Constant line break to puts dashes
 	BREAK = "\n" + "-" * 80 + "\n"
 
@@ -15,8 +19,8 @@ class Game
 		# Create player
 		@new_player = Player.new
 		system 'clear'
-		@new_player.get_name
-		@new_player.change_inventory(:spike, 20)
+		# @new_player.get_name
+		# @new_player.change_inventory(:spike, 20)
 
 		# Start downtown
 		@current_station = Station.new("Downtown")
@@ -110,11 +114,9 @@ class Game
 		"""
 		puts CONTINUE
 		gets.chomp
-		system 'clear'
 
 		# First turn, doesn't incur more debt, no possibility of dying
 		# No random events
-		@current_station.display_station
 		game_menu
 	end
 
@@ -122,9 +124,7 @@ class Game
 		if finished?
 			end_game
 		else
-			system 'clear'
 			@new_player.incur_debt
-			@current_station.display_station
 			game_menu
 		end
 	end
@@ -159,56 +159,117 @@ class Game
 		end
 	end
 
-	def buy_implant
+	# Call at top of each in-game menu
+	def scene_head
+		system 'clear'
+		@current_station.display_station
+		display_stats
+		puts BREAK
 	end
 
-	def sell_implant
+	def get_price_data(implant)
+		@price = @current_station.implants[implant][P]
+		@quantity = @current_station.implants[implant][Q]
+		puts "$#{@price}, #{@quantity}"
+	end
+
+	def max_afford
+		@afford = @new_player.cash / @price
+		return @quantity if @afford > @quantity
+		@afford
+	end
+
+	def buy(implant)
+		puts "\nYou can afford #{max_afford} #{implant.capitalize} implants."
+
+		puts "\nHow many #{implant.capitalize} do you buy?"
+		amount = gets.chomp.to_i
+
+		cost = amount * @price
+		buy(implant) if cost > @new_player.cash
+
+		@new_player.cash -= cost
+		@new_player.inventory[implant] += amount
+
+		puts """
+		You bought #{amount} #{implant.capitalize} for $#{cost}
+
+		You have $#{@new_player.cash} left.
+		"""
+		# Return to menu
+		puts CONTINUE
+		gets.chomp
+		game_menu
+	end
+
+	def pick_implant
+		puts "\nEnter the name of the implant:"
+		implant = gets.chomp.downcase.to_sym
+		pick_implant unless @current_station.implants.include?(implant)
+		return implant
+	end
+
+	def valid?(input)
+		['b', 'r', 's'].include?(input)
 	end
 
 	def black_market
-		system 'clear'
-		puts BREAK
+		scene_head
+
 		@current_station.implants_menu
 
-		# Implement transactions methods
+		# Buy or sell method?
+		puts "Would you like to (b)uy or (s)ell implants?"
+		puts "Or (r) to return to menu..."
+		transaction_type = gets.chomp.downcase[0]
+		black_market unless valid?(transaction_type)
+
+		game_menu if transaction_type == 'r'
+		
+		implant = pick_implant
+		get_price_data(implant)
+
+		buy(implant) if transaction_type == 'b'
+
+		sell(impant) if transaction_type == 's'
 
 		# Return to menu
 		puts CONTINUE
 		gets.chomp
-		system 'clear'
-		game_menu
+		# game_menu
 	end
 
 	def loan_shark
+		scene_head
+
 		if @new_player.cash >= @new_player.debt
 			@new_player.cash -= @new_player.debt
 			@new_player.debt = 0
 			puts """
 			Your debt is paid and you are safe from GeneTech Bank collectors.
 			"""
+
 			# Return to menu
 			puts CONTINUE
 			gets.chomp
-			system 'clear'
 			game_menu
 		else
-			puts BREAK
 			puts "You do not have enough cash to pay your debts."
 			
 			# Return to menu
 			puts CONTINUE
 			gets.chomp
-			system 'clear'
 			game_menu
 		end
 	end
 
 	def change_location
+		scene_head
+
 		puts BREAK
 		puts "Where will you go?"
 		new_location = make_selection(@locations)
 		if new_location == 7
-			system 'clear'
 			game_menu
 		else
 			@current_station = Station.new(@locations[new_location - 1])
@@ -218,7 +279,8 @@ class Game
 	end
 
 	def display_inventory
-		puts BREAK
+		scene_head
+
 		puts "Implants in possession:"
 		@new_player.display_inventory
 		puts BREAK
@@ -226,13 +288,12 @@ class Game
 		# Return to menu
 		puts CONTINUE
 		gets.chomp
-		system 'clear'
 		game_menu
 	end
 
 	def game_menu
-		display_stats
-		puts BREAK
+		scene_head
+		
 		puts "What do you do?"
 		case make_selection(@station_choices)
 		when 1 then black_market
@@ -246,5 +307,7 @@ class Game
 end
 
 play = Game.new
-# play.new_turn
 play.start_game
+# play.black_market
+# play.get_price_data('flex')
+# play.buy_implant(:rage, 3)
