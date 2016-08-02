@@ -13,18 +13,50 @@
 ]
 
 class Station
+	# Constant Q = Quantity
+	Q = 0
+	# Constant P = Price
+	P = 1
+
+	def get_quantity
+		rand(0..20)
+	end
+
+	def get_price
+		rand(100..500)
+	end
+
 	def initialize(station)
 		@station = station
+		@implants = {
+			"spike": [get_quantity, get_price],
+			"flex": [get_quantity, get_price],
+			"rage": [get_quantity, get_price],
+			"sight": [get_quantity, get_price],
+			"sleep": [get_quantity, get_price],
+			"swap": [get_quantity, get_price],
+			"fount": [get_quantity, get_price]
+		}
 	end
 
 	def display_station
-		print "Welcome to #{@station}.\n"
+		puts "Welcome to #{@station}.\n"		
 	end
 
+	def implants_menu
+		puts "Implants available:"
+		puts "-" * 50
+		@implants.each { |i, n|
+			puts "#{i.capitalize}: #{n[Q]} @ $#{n[P]}\n"
+		}
+	end
 end
 
 # Prompt player to select new location
 def move_to
+	puts "\n" * 2
+	puts "Moving..."
+	puts "-" * 50
 	(0...@locations.length).each { |n|
 		print "#{n + 1}: #{@locations[n]}\n"
 	}
@@ -44,5 +76,7 @@ end
 
 location = Station.new('Downtown')		# Always start in Downtown
 location.display_station
+location.implants_menu
 location = Station.new(move_to)
 location.display_station
+location.implants_menu
