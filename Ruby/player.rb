@@ -50,7 +50,7 @@ class Player
 	end
 
 	def incur_debt
-		@debt *= 1.1
+		@debt *= 1.25
 		@debt.round
 	end
 
