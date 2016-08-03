@@ -8,9 +8,6 @@ class Player
 	attr_accessor :inventory
 	attr_accessor :weapon
 
-	# MVP: max capacity = 30
-	COAT_MAX = 30
-
 	def initialize(health = 100, cash = 2000, debt = 2000)
 		@health = health
 		@cash = cash
@@ -27,8 +24,11 @@ class Player
 			"fount": 0		# Regenerate health
 		}
 
+		# MVP: max capacity = 30
+		@coat_max = 30
+
 		# Holster - adding a weapon removes previous weapon
-		@weapon = ""
+		@weapon = "None"
 			# Weapons:
 			# KLAW: simple club, low damage
 			# 10mm: 3-shot pistol with reflex sight, medium damage
@@ -60,20 +60,17 @@ class Player
 
 	# Returns true if purchase will surpass carrying capacity
 	def full_coat?(add)
-		add + @inventory.each_value.reduce(:+) > COAT_MAX
+		add + @inventory.each_value.reduce(:+) > @coat_max
 	end
 
-	def change_inventory(item, amount)
-		if full_coat?(amount)
-			puts "You do not have enough room."
-		else
-			@inventory[item] += amount
-		end
+	def change_inventory(implant, amount)
+		@inventory[implant] += amount
+
 	end
 
 	def display_inventory
-		@inventory.each { |item, amount|
-			print "#{item.capitalize}: #{amount}\n" if amount > 0
+		@inventory.each { |implant, amount|
+			print "#{implant.capitalize}: #{amount}\n" if amount > 0
 		}
 	end
 
@@ -82,12 +79,16 @@ class Player
 	end
 
 	def display_stats
-		puts "Name: #{@name}"
-		puts "Health: #{@health}%"
-		puts "Cash: $#{@cash}"
-		puts "Debt: $#{@debt.round}"
-		puts "Weapon: #{@weapon.upcase}" unless @weapon == ''
-		puts
+		puts """
+		#{@name}'s Statistics
+		--------------------------------
+		Health: #{@health}%
+		Cash: $#{@cash}
+		Debt: $#{@debt.round}
+		Weapon: #{@weapon}
+		Carrying space: #{@coat_max - @inventory.each_value.reduce(:+)}
+		--------------------------------
+		"""
 	end
 end
 
