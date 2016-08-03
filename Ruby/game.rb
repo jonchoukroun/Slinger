@@ -20,7 +20,7 @@ class Game
 		@new_player = Player.new
 		system 'clear'
 		@new_player.get_name
-		# @new_player.change_inventory(:spike, 20)		# Add spike for testing
+		@new_player.change_inventory(:spike, 20)		# Add spike for testing
 
 		# Start downtown
 		@current_station = Station.new("Downtown")
@@ -63,6 +63,7 @@ class Game
 		# Place holder for score saving option on UI
 		puts "Save score (y/n)?"
 		gets.chomp
+		exit!
 	end
 
 	def take_turn
@@ -72,18 +73,18 @@ class Game
 	def start_game
 		puts """
 		#{BREAK}
-					SLINGER 2080
+					SLINGER
 		------------------------------------
 
-		Los Angeles, 2065...
+		Los Angeles, not long from now...
 
-		GeneTech Inc. invents the neural implant: nano-bots that supercharge
-		human ability and improve speed, strength, the senses...
-		... at an astronomical cost. 
+		GeneTech Inc. invents the neural implant: an injection of nano-bots
+		that supercharges human ability and improves speed, strength, and the
+		senses - at an astronomical cost. 
 
 		The gap between between rich and poor expands, as those who can afford
-		implants become more than human. Poverty and crime surpass levels common
-		in the 3rd world.
+		implants become more than human. Poverty and crime metastisize in urban
+		centers, spiraling into anarchy. 
 		#{BREAK}
 
 		#{CONTINUE}
@@ -94,21 +95,33 @@ class Game
 		puts """
 
 		#{BREAK}
-		A GeneTech engineer leaks the key technology behind neural implantation,
-		creating a booming black market in powerful - but dangerous - implants.
-		These \"NIMs\", engineered in basement labs, offer a greater variety
-		of abilities, but the risk of malfunction is high... The high use of
-		NIMs has turned a number of the city's desperate into feral killers
-		called NIMscum.
+		Hoping to even the field, a GeneTech engineer leaks the key technology
+		behind neural implantation, creating a booming black market in
+		powerful - but dangerous - street implants.
 
-		As a slinger, you buy and sell NIMs on LA's unforgiving streets. You
-		have 30 days to earn as much as possible, but look out for other
-		dealers, GeneTech security, and the NIMscum. And pay back your loan to
-		GeneTech Bank before they send collectors after you.
-		Maybe invest in protection...
+		These implants, patched together in mobile labs, often malfunction
+		and kill their users - or worse. The streets of Los Angeles now crawl
+		with feral predators called Glitchers, victims of broken implants who
+		are hellbent on violently acquiring more implants.
+		#{BREAK}
 
-		If things get too tough, taking NIMs can always give you an edge - but
-		are they worth the risk?
+		#{CONTINUE}
+		"""
+		gets.chomp
+		system 'clear'
+
+		puts """
+
+		#{BREAK}
+		As a slinger, you ride LA's subway, buying and selling black market
+		implants. You have 30 days to earn, if you can survive. Glitchers, other
+		slingers, and GeneTech Security are hunting you.
+
+		And don't forget to pay back your loan before GeneTech Bank decides to
+		send a few Collectors after you. Maybe invest in protection...
+
+		If things get too tough, you can always take one of your implants - if 
+		you think it's worth the risk.
 		#{BREAK}
 		Good luck, #{@new_player.name}
 		"""
@@ -129,20 +142,6 @@ class Game
 		end
 	end
 
-	def display_stats
-		puts BREAK
-		puts """
-		#{@new_player.name}'s Statistics:
-		--------------------------------
-			Health: #{@new_player.health}%
-			Cash: $#{@new_player.cash}
-			Debt: $#{@new_player.debt.round}
-		--------------------------------
-		Turns left: #{@turns}
-		"""
-		puts BREAK
-	end
-
 	def make_selection(options)
 		puts "Select a number from the following menu options:"
 		(0...options.length).each { |n|
@@ -160,10 +159,12 @@ class Game
 	end
 
 	# Call at top of each in-game menu
-	def scene_head
+	def scene_head(area)
 		system 'clear'
+		puts "\n"
 		@current_station.display_station
-		display_stats
+		@new_player.display_stats
+		puts "...#{area}"
 		puts BREAK
 	end
 
@@ -180,26 +181,63 @@ class Game
 	end
 
 	def buy(implant)
-		puts "\nYou can afford #{max_afford} #{implant.capitalize} implants."
+		puts "\nYou can afford #{max_afford.round} #{
+			implant.capitalize} implants."
 
 		puts "\nHow many #{implant.capitalize} do you buy?"
 		amount = gets.chomp.to_i
 
 		cost = amount * @price
-		buy(implant) if cost > @new_player.cash
+		if cost > @new_player.cash
+			puts "You don't have enough money."
+			buy(implant)
+		elsif @new_player.full_coat?(amount)
+			puts "You don't have enough space to carry that many implants"
+			buy(implant)
+		else
+			@new_player.change_inventory(implant, amount)
+			@new_player.change_cash(-cost)
 
-		@new_player.cash -= cost
-		@new_player.inventory[implant] += amount
+			puts """
+			You bought #{amount} #{implant.capitalize} for $#{cost}
 
-		puts """
-		You bought #{amount} #{implant.capitalize} for $#{cost}
+			You have $#{@new_player.cash} left.
+			"""
+		end
 
-		You have $#{@new_player.cash} left.
-		"""
-		# Return to menu
+		# Return to black market
 		puts CONTINUE
 		gets.chomp
-		game_menu
+		black_market
+	end
+
+	def sell(implant)
+		puts "\nYou have #{@new_player.inventory[implant]} #{
+			implant.capitalize} to sell."
+
+		puts "\nHow many #{implant.capitalize} do you sell?"
+		amount = gets.chomp.to_i
+
+		if amount > @new_player.inventory[implant]
+			puts "You don't have enough #{implant.capitalize}."
+			sell(implant)
+		else
+			revenue = amount * @price
+			@new_player.cash += revenue
+			@new_player.inventory[implant] -= amount
+
+			puts """
+			You sold #{amount} #{implant.capitalize} implants for $#{revenue}.
+
+			You have #{@new_player.inventory[implant]} #{
+				implant.capitalize} left.
+			"""
+		end
+
+		# Return to black market
+		puts CONTINUE
+		gets.chomp
+		black_market
 	end
 
 	def pick_implant
@@ -208,6 +246,7 @@ class Game
 		if @current_station.implants.include?(implant)
 			return implant
 		else
+			puts "\nThat is not a currently available implant."
 			pick_implant
 		end
 	end
@@ -217,7 +256,11 @@ class Game
 	end
 
 	def black_market
-		scene_head
+		scene_head("At the Black Market")
+
+		puts "\nYou current have the following implants:"
+		@new_player.display_inventory
+		puts BREAK
 
 		@current_station.implants_menu
 
@@ -234,16 +277,24 @@ class Game
 
 		buy(implant) if transaction_type == 'b'
 
-		sell(implant) if transaction_type == 's'
+		if transaction_type == 's' && @new_player.inventory[implant] > 0
+			sell(implant)
+		else
+			puts "\nYou don't have any of this implant to sell."
 
-		# Return to menu
-		puts CONTINUE
-		gets.chomp
-		# game_menu
+			puts CONTINUE
+			gets.chomp
+			black_market
+		end
+
+		# # Return to menu
+		# puts CONTINUE
+		# gets.chomp
+		# # game_menu
 	end
 
 	def loan_shark
-		scene_head
+		scene_head("At GeneTech Bank")
 
 		if @new_player.cash >= @new_player.debt
 			@new_player.cash -= @new_player.debt
@@ -267,7 +318,7 @@ class Game
 	end
 
 	def change_location
-		scene_head
+		scene_head("Entering the Subway Station")
 
 		puts BREAK
 		puts "Where will you go?"
@@ -282,7 +333,7 @@ class Game
 	end
 
 	def display_inventory
-		scene_head
+		scene_head("Checking Current Inventory")
 
 		puts "Implants in possession:"
 		@new_player.display_inventory
@@ -295,7 +346,7 @@ class Game
 	end
 
 	def game_menu
-		scene_head
+		scene_head("Main Menu")
 		
 		puts "What do you do?"
 		case make_selection(@station_choices)
@@ -310,7 +361,7 @@ class Game
 end
 
 play = Game.new
-play.start_game
-# play.black_market
+# play.start_game
+play.black_market
 # play.get_price_data('flex')
 # play.buy_implant(:rage, 3)
