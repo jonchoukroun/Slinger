@@ -14,7 +14,7 @@ class Game
 	CONTINUE = "Press ENTER to continue..."
 
 	def initialize
-		@turns = 5		# Increase to 30 for full game
+		@turns = 30		# Increase to 30 for full game
 
 		# Create player
 		@new_player = Player.new
@@ -203,7 +203,7 @@ class Game
 			puts """
 			You bought #{amount} #{implant.capitalize} for $#{cost}
 
-			You have $#{@new_player.cash} left.
+			You have $#{@new_player.cash.to_i} left.
 			"""
 		end
 
@@ -283,7 +283,7 @@ class Game
 		if transaction_type == 's' && @new_player.inventory[implant] > 0
 			sell(implant)
 		else
-			puts "\nYou don't have any of this implant to sell."
+			puts "\nYou don't have any of that implant to sell."
 
 			puts CONTINUE
 			gets.chomp
@@ -300,8 +300,8 @@ class Game
 		scene_head("At GeneTech Bank")
 
 		if @new_player.cash >= @new_player.debt
-			@new_player.cash -= @new_player.debt
-			@new_player.debt = 0
+			@new_player.change_cash(@new_player.debt)
+			@new_player.pay_off_debt
 			puts """
 			Your debt is paid and you are safe from GeneTech Bank collectors.
 			"""
