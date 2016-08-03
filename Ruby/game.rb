@@ -20,7 +20,7 @@ class Game
 		@new_player = Player.new
 		system 'clear'
 		@new_player.get_name
-		@new_player.change_inventory(:spike, 20)		# Add spike for testing
+		# @new_player.change_inventory(:spike, 20)		# Add spike for testing
 
 		# Start downtown
 		@current_station = Station.new("Downtown")
@@ -48,7 +48,7 @@ class Game
 	end
 
 	def finished?
-		@turns < 0
+		@turns == 0
 	end
 
 	def end_game
@@ -226,7 +226,7 @@ class Game
 		else
 			revenue = amount * @price
 			@new_player.change_inventory(implant, -amount)
-			@new_player.change_cash(amount)
+			@new_player.change_cash(revenue)
 
 			puts """
 			You sold #{amount} #{implant.capitalize} implants for $#{revenue}.
