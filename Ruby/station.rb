@@ -38,18 +38,18 @@ class Station
 		puts "Welcome to #{@station}.\n"		
 	end
 
+	def current_implants
+		@implants.reject { |implant, data| data[Q] == 0 }
+	end
+
 	def implants_menu
 		puts "Implants available:"
 		puts "-" * 50
-		@implants.each { |i, n|
-			puts "#{i.capitalize}: #{n[Q]} @ $#{n[P]}\n" unless n[Q] == 0
+		current_implants.each { |implant, data|
+			puts "#{implant.capitalize}: #{data[Q]} @ $#{data[P]}\n"
 		}
 	end
 end
 
-location = Station.new('Downtown')		# Always start in Downtown
-# location.display_station
+# location = Station.new('Downtown')		# Always start in Downtown
 # location.implants_menu
-# location = Station.new(move_to)
-# location.display_station
-location.implants_menu
