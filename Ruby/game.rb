@@ -225,8 +225,8 @@ class Game
 			sell(implant)
 		else
 			revenue = amount * @price
-			@new_player.cash += revenue
-			@new_player.inventory[implant] -= amount
+			@new_player.change_inventory(implant, -amount)
+			@new_player.change_cash(amount)
 
 			puts """
 			You sold #{amount} #{implant.capitalize} implants for $#{revenue}.
