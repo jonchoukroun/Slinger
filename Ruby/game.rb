@@ -14,7 +14,7 @@ class Game
 	CONTINUE = "Press ENTER to continue..."
 
 	def initialize
-		@turns = 5		# Increase to 29 for full game
+		@turns = 5		# Increase to 30 for full game
 
 		# Create player
 		@new_player = Player.new
@@ -41,7 +41,8 @@ class Game
 			'Visit black market',
 			'Pay off loan shark',
 			'View inventory',
-			'Change location (end turn)'
+			'Change location (end turn)',
+			'Quit game'
 		]
 
 	end
@@ -56,7 +57,7 @@ class Game
 		puts """
 		Game Over!
 
-		After 30 days, you made:
+		After #{5 - @turns} days, you made:
 			$#{(@new_player.cash - @new_player.debt).round}
 		"""
 
@@ -356,6 +357,7 @@ class Game
 		when 2 then loan_shark
 		when 3 then display_inventory
 		when 4 then change_location
+		when 5 then end_game
 		end			
 	end
 
@@ -364,4 +366,3 @@ end
 
 play = Game.new
 play.start_game
-# play.pick_implant
