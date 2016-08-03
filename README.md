@@ -1,8 +1,7 @@
-# drugwars
-Classic DrugWars game, updated with a new web interface.
+# Slinger 2080
+Make a fortune on the Los Angeles black market, buying and selling neural implants.
 
-This project uses HTML, CSS, and JavaScript.
-John E. Dell created Drugwars in 1984, and I've tried to stay faithful to the original.
+Thank you to John E. Dell for the inspiration.
 
 Enjoy.
 - Jon Choukroun
