@@ -83,7 +83,7 @@ class Player
 		#{@name}'s Statistics
 		--------------------------------
 		Health: #{@health}%
-		Cash: $#{@cash}
+		Cash: $#{@cash.round}
 		Debt: $#{@debt.round}
 		Weapon: #{@weapon}
 		Carrying space: #{@coat_max - @inventory.each_value.reduce(:+)}
