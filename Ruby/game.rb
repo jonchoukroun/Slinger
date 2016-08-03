@@ -19,8 +19,8 @@ class Game
 		# Create player
 		@new_player = Player.new
 		system 'clear'
-		# @new_player.get_name
-		# @new_player.change_inventory(:spike, 20)
+		@new_player.get_name
+		# @new_player.change_inventory(:spike, 20)		# Add spike for testing
 
 		# Start downtown
 		@current_station = Station.new("Downtown")
@@ -170,7 +170,7 @@ class Game
 	def get_price_data(implant)
 		@price = @current_station.implants[implant][P]
 		@quantity = @current_station.implants[implant][Q]
-		puts "$#{@price}, #{@quantity}"
+		# puts "$#{@price}, #{@quantity}"
 	end
 
 	def max_afford
@@ -205,8 +205,11 @@ class Game
 	def pick_implant
 		puts "\nEnter the name of the implant:"
 		implant = gets.chomp.downcase.to_sym
-		pick_implant unless @current_station.implants.include?(implant)
-		return implant
+		if @current_station.implants.include?(implant)
+			return implant
+		else
+			pick_implant
+		end
 	end
 
 	def valid?(input)
@@ -231,7 +234,7 @@ class Game
 
 		buy(implant) if transaction_type == 'b'
 
-		sell(impant) if transaction_type == 's'
+		sell(implant) if transaction_type == 's'
 
 		# Return to menu
 		puts CONTINUE
