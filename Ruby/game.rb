@@ -57,7 +57,7 @@ class Game
 		puts """
 		Game Over!
 
-		After #{5 - @turns} days, you made:
+		After #{30 - @turns} days, you made:
 			$#{(@new_player.cash - @new_player.debt).round}
 		"""
 
@@ -171,9 +171,8 @@ class Game
 	end
 
 	def get_price_data(implant)
-		@price = @current_station.implants[implant][P]
-		@quantity = @current_station.implants[implant][Q]
-		# puts "$#{@price}, #{@quantity}"
+		@price = @current_station.current_implants[implant][P]
+		@quantity = @current_station.current_implants[implant][Q]
 	end
 
 	def max_afford
