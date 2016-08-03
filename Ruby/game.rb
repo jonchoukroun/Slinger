@@ -14,7 +14,7 @@ class Game
 	CONTINUE = "Press ENTER to continue..."
 
 	def initialize
-		@turns = 5		# Increase to 30 for full game
+		@turns = 5		# Increase to 29 for full game
 
 		# Create player
 		@new_player = Player.new
@@ -163,7 +163,7 @@ class Game
 		system 'clear'
 		puts "\n"
 		@current_station.display_station
-		puts "\nYou have #{@turns} turns left."
+		puts "\nYou have #{@turns-1} turns left."
 		@new_player.display_stats
 		puts "...#{area}"
 		puts BREAK
@@ -244,7 +244,8 @@ class Game
 	def pick_implant
 		puts "\nEnter the name of the implant:"
 		implant = gets.chomp.downcase.to_sym
-		if @current_station.implants.include?(implant)
+
+		if @current_station.current_implants.include?(implant)
 			return implant
 		else
 			puts "\nThat is not a currently available implant."
@@ -363,6 +364,4 @@ end
 
 play = Game.new
 play.start_game
-# play.black_market
-# play.get_price_data('flex')
-# play.buy_implant(:rage, 3)
+# play.pick_implant
