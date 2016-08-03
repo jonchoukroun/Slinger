@@ -84,7 +84,7 @@ class Game
 
 		The gap between between rich and poor expands, as those who can afford
 		implants become more than human. Poverty and crime metastisize in urban
-		centers, spiraling into anarchy. 
+		centers, which spiral into anarchy. 
 		#{BREAK}
 
 		#{CONTINUE}
@@ -96,13 +96,13 @@ class Game
 
 		#{BREAK}
 		Hoping to even the field, a GeneTech engineer leaks the key technology
-		behind neural implantation, creating a booming black market in
+		behind neural implantation, creating a booming black market for
 		powerful - but dangerous - street implants.
 
 		These implants, patched together in mobile labs, often malfunction
 		and kill their users - or worse. The streets of Los Angeles now crawl
-		with feral predators called Glitchers, victims of broken implants who
-		are hellbent on violently acquiring more implants.
+		with feral hunters called glitchers, victims of broken implants who
+		prey on other users, obsessed with further enhancements.
 		#{BREAK}
 
 		#{CONTINUE}
@@ -114,11 +114,11 @@ class Game
 
 		#{BREAK}
 		As a slinger, you ride LA's subway, buying and selling black market
-		implants. You have 30 days to earn, if you can survive. Glitchers, other
+		implants. You have 30 days to earn, if you can survive. glitchers, other
 		slingers, and GeneTech Security are hunting you.
 
 		And don't forget to pay back your loan before GeneTech Bank decides to
-		send a few Collectors after you. Maybe invest in protection...
+		send a few collectors after you. Maybe invest in protection...
 
 		If things get too tough, you can always take one of your implants - if 
 		you think it's worth the risk.
@@ -163,6 +163,7 @@ class Game
 		system 'clear'
 		puts "\n"
 		@current_station.display_station
+		puts "\nYou have #{@turns} turns left."
 		@new_player.display_stats
 		puts "...#{area}"
 		puts BREAK
@@ -361,7 +362,7 @@ class Game
 end
 
 play = Game.new
-# play.start_game
-play.black_market
+play.start_game
+# play.black_market
 # play.get_price_data('flex')
 # play.buy_implant(:rage, 3)
