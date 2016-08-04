@@ -43,6 +43,10 @@ class Station
 		@implants.reject { |implant, data| data[Q] == 0 }
 	end
 
+	def change_market(implant, amount)
+		@implants[implant][Q] += amount
+	end
+
 	def implants_menu
 		puts "Implants available:"
 		puts "-" * 50
@@ -52,5 +56,5 @@ class Station
 	end
 end
 
-# location = Station.new('Downtown')		# Always start in Downtown
-# location.implants_menu
+location = Station.new('Downtown')		# Always start in Downtown
+# puts location.current_implants
