@@ -301,7 +301,7 @@ class Game
 		scene_head("At GeneTech Bank")
 
 		if @new_player.cash >= @new_player.debt
-			@new_player.change_cash(@new_player.debt)
+			@new_player.change_cash(-@new_player.debt)
 			@new_player.pay_off_debt
 			puts """
 			Your debt is paid and you are safe from GeneTech Bank collectors.
