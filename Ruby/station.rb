@@ -17,20 +17,21 @@ class Station
 		rand(0..max)
 	end
 
-	def get_price(multiplier)
-		rand(10..50) * multiplier
+	def get_price(min, max)
+		rand(min..max)
 	end
 
 	def initialize(station)
 		@station = station
 		@implants = {
-			"spike": [get_quantity(10), get_price(500)],
-			"flex": [get_quantity(50), get_price(40)],
-			"rage": [get_quantity(60), get_price(100)],
-			"sight": [get_quantity(6), get_price(1000)],
-			"sleep": [get_quantity(100), get_price(20)],
-			"swap": [get_quantity(40), get_price(65)],
-			"fount": [get_quantity(10), get_price(600)]
+			# implant: [get_quantity(q), get_price(min, max)]
+			"spike": [get_quantity(45), get_price(500, 1300)],
+			"flex": [get_quantity(50), get_price(300, 900)],
+			"rage": [get_quantity(60), get_price(450, 1500)],
+			"sight": [get_quantity(10), get_price(15000, 25000)],
+			"sleep": [get_quantity(100), get_price(10, 65)],
+			"swap": [get_quantity(40), get_price(1000, 3500)],
+			"fount": [get_quantity(15), get_price(5000, 14000)]
 		}
 	end
 
