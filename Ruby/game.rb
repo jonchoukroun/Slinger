@@ -197,6 +197,7 @@ class Game
 			buy(implant)
 		else
 			@new_player.change_inventory(implant, amount)
+			@current_station.change_market(implant, -amount)
 			@new_player.change_cash(-cost)
 
 			puts """
@@ -225,6 +226,7 @@ class Game
 		else
 			revenue = amount * @price
 			@new_player.change_inventory(implant, -amount)
+			@current_station.change_market(implant, amount)
 			@new_player.change_cash(revenue)
 
 			puts """
