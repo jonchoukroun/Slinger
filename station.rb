@@ -16,12 +16,6 @@ class Station
 	# B = Y-Intercept
 	B = 2
 
-	# y = mx + b
-
-	def get_slope(q, min, max)
-
-	end
-
 	def get_quantity(max)
 		rand(0..max)
 	end
