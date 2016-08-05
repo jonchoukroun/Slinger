@@ -6,22 +6,9 @@ require_relative 'player'
 
 class Events
 	def initialize
-		@new_player = Player.new 			# Remove after testing class
-		@new_player.change_inventory(:spike, 5)
 		@inventory = @new_player.inventory
-		@debt = 20000
-		
-
+		@debt = @new_player.debt
 	end
-
-	# # Generate debt for testing
-	# def debt
-	# 	p = 2000
-	# 	r = 1.1
-	# 	n = 29
-
-	# 	n.times { |n| collector(p *= r) }
-	# end
 
 	# Probability of collector rises each time debt increase by 1000
 	def collector
@@ -42,7 +29,6 @@ class Events
 
 		puts "Press ENTER to continue..."
 		gets.chomp
-
 	end
 
 	def glitcher
@@ -98,4 +84,3 @@ end
 
 
 # test = Events.new
-# test.occurence?
