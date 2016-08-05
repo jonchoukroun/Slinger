@@ -6,7 +6,7 @@
 ## Instructions
 This game runs in Ruby 2.3.1, you may need to update if you're running your system's default version.
 
-Download the zip file on the Testing branch.
+Download the zip file.
 
 Open terminal and navigate to the folder you just unzipped.
 
