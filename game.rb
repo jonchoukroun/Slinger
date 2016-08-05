@@ -1,3 +1,12 @@
+# Main ruby file for runnning game
+# -------------------------------
+#
+# Author: Jon Choukroun
+# © June 2016
+# Written in Ruby 2.3.1
+# -------------------------------
+
+
 # Pull classes from other files
 require_relative 'player'
 require_relative 'station'
@@ -139,6 +148,8 @@ class Game
 			end_game
 		else
 			@new_player.incur_debt
+			@event = Events.new
+			@event.occurence?
 			game_menu
 		end
 	end
@@ -171,8 +182,8 @@ class Game
 	end
 
 	def get_price_data(implant)
-		@price = @current_station.current_implants[implant][P]
 		@quantity = @current_station.current_implants[implant][Q]
+		@price = @current_station.current_implants[implant][P]
 	end
 
 	def max_afford
