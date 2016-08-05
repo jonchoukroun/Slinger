@@ -7,32 +7,85 @@ require_relative 'player'
 class Events
 	def initialize
 		@new_player = Player.new 			# Remove after testing class
-		# @debt = @new_player.debt
+		@new_player.change_inventory(:spike, 5)
 		@inventory = @new_player.inventory
+		@debt = 20000
+		
 
 	end
 
-	# Generate debt for testing
-	def debt
-		p = 2000
-		r = 1.1
-		n = 29
+	# # Generate debt for testing
+	# def debt
+	# 	p = 2000
+	# 	r = 1.1
+	# 	n = 29
 
-		n.times { |n| collector(p *= r) }
-	end
+	# 	n.times { |n| collector(p *= r) }
+	# end
 
 	# Probability of collector rises each time debt increase by 1000
-	def collector(debt)
-		probability = 0.017
-		probability * ((debt.to_i - 2000) / 1000)
+	def collector
+		probability = 0.017 * ((@debt.to_i - 2000) / 1000)
+		return false unless rand(1..100) < probability * 100
+
+		@new_player.change_health(-30)
+
+		system 'clear'
+		puts """
+		A team of GeneTech Bank collectors surrounds you as you leave the train.
+
+		They lecture you on the importance of paying one's debts, and
+		responsibility in general.
+		To teach you a lesson, they pin you down while the Chief Collector cuts
+		off one of your fingers with a pair of pruning shears.
+		"""
+
+		puts "Press ENTER to continue..."
+		gets.chomp
+
 	end
 
 	def glitcher
-		# puts "Glitcher"
+		return false unless rand(0..100) < 10
+
+		@inventory.each { |implant, amount|
+			@new_player.change_inventory(implant, -amount)
+		}
+
+		system 'clear'
+		puts """
+		A Glitcher corners you on the subway platform.
+
+		She's too strong for you to fight, and too fast for you to run.
+		Without a word she slams you into a wall and tears into your coat.
+		She takes all your implants, but at least you're still alive.
+		"""
+
+		puts "Press ENTER to continue..."
+		gets.chomp
+	end
+
+	def random_implant
+		@inventory.keys[rand(0...@inventory.length)]
 	end
 
 	def package
-		puts "Package"
+		# puts "Package"
+		return false unless rand(0..100) < 10
+
+		implant = random_implant
+		amount = rand(1..5)
+
+		system 'clear'
+		puts """
+		You find a backpack on the seat next to you.
+		
+		Inside you find #{amount} #{implant} implants.
+		Today must be your lucky day.
+		"""
+
+		puts "Press ENTER to continue..."
+		gets.chomp
 	end
 
 	def occurence?
@@ -44,6 +97,5 @@ class Events
 end
 
 
-test = Events.new
-# puts test.occurence?
-test.debt
+# test = Events.new
+# test.occurence?
