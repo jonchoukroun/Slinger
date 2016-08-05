@@ -55,7 +55,7 @@ class Station
 		puts "Implants available:"
 		puts "-" * 50
 		current_implants.each { |implant, data|
-			puts "#{implant.capitalize}: #{data[Q]} available at $#{data[P]}\n"
+			puts "#{implant.capitalize}: #{data[Q]} #{'.' * 5} @ $#{data[P]}\n"
 		}
 	end
 end
