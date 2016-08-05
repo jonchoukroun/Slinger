@@ -3,27 +3,47 @@
 
 # Call on Player class methods
 require_relative 'player'
+
 class Events
 	def initialize
-		@debt = @new_player.debt
+		@new_player = Player.new 			# Remove after testing class
+		# @debt = @new_player.debt
 		@inventory = @new_player.inventory
+
 	end
 
-	def collector
+	# Generate debt for testing
+	def debt
+		p = 2000
+		r = 1.1
+		n = 29
+
+		n.times { |n| collector(p *= r) }
+	end
+
+	# Probability of collector rises each time debt increase by 1000
+	def collector(debt)
+		probability = 0.017
+		probability * ((debt.to_i - 2000) / 1000)
 	end
 
 	def glitcher
+		# puts "Glitcher"
 	end
 
 	def package
-	end
-	
-	def positive?
+		puts "Package"
 	end
 
 	def occurence?
+		collector if @debt > 0
+		glitcher if @inventory.each_value.reduce(:+) > 0
+		package
 	end
 
 end
 
+
 test = Events.new
+# puts test.occurence?
+test.debt
