@@ -10,6 +10,7 @@
 # Pull classes from other files
 require_relative 'player'
 require_relative 'station'
+require_relative 'events'
 
 class Game
 	# Constants access implants values

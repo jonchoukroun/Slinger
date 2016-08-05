@@ -60,5 +60,4 @@ class Station
 	end
 end
 
-location = Station.new('Downtown')		# Always start in Downtown
-location.implants_menu
+# location = Station.new('Downtown')		# Always start in Downtown
