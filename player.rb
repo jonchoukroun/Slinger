@@ -1,3 +1,6 @@
+# Contains all methods relating to player:
+# money, inventory, health, etc
+
 class Player
 
 	# Allow other classes to access Player instance variables
@@ -37,7 +40,7 @@ class Player
 
 	def get_name
 		puts "\n" * 5
-		print "Please enter your name: "
+		print "Please enter your name to save your score: "
 		@name = gets.chomp
 	end
 
@@ -50,7 +53,7 @@ class Player
 	end
 
 	def incur_debt
-		@debt *= 1.15
+		@debt *= 1.1
 		@debt.round
 	end
 
@@ -91,10 +94,3 @@ class Player
 		"""
 	end
 end
-
-# # Create new player at game start
-# new_game = Player.new
-# # new_game.get_name
-# # new_game.display
-# new_game.change_inventory(:spike, 29)
-# new_game.change_inventory(:flex, 1)
