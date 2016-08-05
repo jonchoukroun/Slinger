@@ -20,7 +20,7 @@ class Station
 
 	def get_price(q, m, b)
 		q = get_quantity(q)
-		[q, (q * m + b)]
+		[q, (q * m + b).round]
 
 	end
 
@@ -55,7 +55,7 @@ class Station
 		puts "Implants available:"
 		puts "-" * 50
 		current_implants.each { |implant, data|
-			puts "#{implant.capitalize}: #{data[Q]} available at $#{data[P].round}\n"
+			puts "#{implant.capitalize}: #{data[Q]} available at $#{data[P]}\n"
 		}
 	end
 end
