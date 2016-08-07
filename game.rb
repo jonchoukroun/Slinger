@@ -10,7 +10,7 @@
 # Pull classes from other files
 require_relative 'player'
 require_relative 'station'
-# require_relative 'events'
+require_relative 'events'
 
 class Game
 	# Constants access implants values
@@ -149,8 +149,8 @@ class Game
 			end_game
 		else
 			@new_player.incur_debt
-			# @event = Events.new
-			# @event.occurence?
+			@event = Events.new(@new_player.health, @new_player.debt, @new_player.inventory)
+			@event.occurence?
 			game_menu
 		end
 	end
