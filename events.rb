@@ -5,17 +5,19 @@
 require_relative 'player'
 
 class Events
-	def initialize
-		@inventory = @new_player.inventory
-		@debt = @new_player.debt
+	def initialize(health, debt, inventory)
+		@inventory = inventory
+		@debt = debt
 	end
+
+	# Alll events return array [health, cash, [implant, amount]]
 
 	# Probability of collector rises each time debt increase by 1000
 	def collector
 		probability = 0.017 * ((@debt.to_i - 2000) / 1000)
 		return false unless rand(1..100) < probability * 100
 
-		@new_player.change_health(-30)
+		# @new_player.change_health(-30)
 
 		system 'clear'
 		puts """
@@ -29,6 +31,9 @@ class Events
 
 		puts "Press ENTER to continue..."
 		gets.chomp
+
+		return [-30, 0, [null, 0]]
+
 	end
 
 	def glitcher
@@ -79,8 +84,8 @@ class Events
 		glitcher if @inventory.each_value.reduce(:+) > 0
 		package
 	end
-
 end
 
 
-# test = Events.new
+test = Events.new
+test.collector
