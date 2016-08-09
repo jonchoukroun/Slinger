@@ -176,10 +176,9 @@ class Game
 
 	# Glitcher takes all implants in inventory
 	def glitcher
-		return false unless rand(0..100) < 50		# Change to 5
+		return false unless rand(0..100) < 5
 
 		@new_player.inventory.each { |implant, amount|
-			print "i = #{implant}, a = #{amount}\n" if amount > 0
 			@new_player.change_inventory(implant, -amount)
 		}
 
