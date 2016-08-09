@@ -156,9 +156,10 @@ class Game
 	# Methods for specific random events, return change to @new_player stats
 	# Collectors reduce health by 30 points
 	def collector
-		# return 0 if @new_player.debt = 0
 		probability = 0.017 * ((@new_player.debt.to_i - 2000) / 1000)
 		return false unless rand(1..100) < probability * 100
+
+		@new_player.change_health(-30)
 
 		system 'clear'
 		puts """
@@ -172,17 +173,19 @@ class Game
 
 		puts "Press ENTER to continue..."
 		gets.chomp
+
+		end_game unless alive?
 	end
 
 	# Glitcher takes all implants in inventory
 	def glitcher
-		return false unless rand(0..100) < 5
+		return false unless rand(0..100) < 101
 
 		@new_player.inventory.each { |implant, amount|
 			@new_player.change_inventory(implant, -amount)
 		}
 
-		# system 'clear'
+		system 'clear'
 		puts """
 		A Glitcher corners you on the subway platform.
 
@@ -190,7 +193,7 @@ class Game
 		Without a word she slams you into a wall and tears into your coat.
 		She takes all your implants, but at least you're still alive.
 		"""
-		puts @new_player.inventory
+
 		puts "Press ENTER to continue..."
 		gets.chomp
 	end
@@ -200,6 +203,7 @@ class Game
 		@new_player.inventory.keys[rand(0...@new_player.inventory.length)]
 	end
 
+	# Find random implant of random amount
 	def package
 		return false unless rand(0..100) < 10
 
@@ -228,12 +232,9 @@ class Game
 			@new_player.incur_debt
 			
 			# Random events
-			glitcher
-
 			package
-			
-			@new_player.change_health(-30) if collector
-			end_game unless alive?
+			glitcher if @new_player.inventory.each_value.reduce(:+) > 0
+			collector if @new_player.debt > 0
 
 			# Continue to main menu
 			game_menu
@@ -463,5 +464,4 @@ class Game
 end
 
 play = Game.new
-# play.start_game
-play.new_turn
+play.start_game
