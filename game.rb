@@ -216,7 +216,7 @@ class Game
 		puts """
 		You find a backpack on the seat next to you.
 		
-		Inside you find #{amount} #{implant} implants.
+		Inside you find #{amount} #{implant.capitalize} implants.
 		Today must be your lucky day.
 		"""
 
@@ -232,7 +232,7 @@ class Game
 			@new_player.incur_debt
 			
 			# Random events
-			package
+			package unless @new_player.full_coat?(5)
 			glitcher if @new_player.inventory.each_value.reduce(:+) > 0
 			collector if @new_player.debt > 0
 
