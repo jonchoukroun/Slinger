@@ -179,7 +179,7 @@ class Game
 
 	# Glitcher takes all implants in inventory
 	def glitcher
-		return false unless rand(0..100) < 101
+		return false unless rand(0..100) < 5
 
 		@new_player.inventory.each { |implant, amount|
 			@new_player.change_inventory(implant, -amount)
@@ -280,7 +280,7 @@ class Game
 	end
 
 	def buy(implant)
-		puts "\nYou can afford #{max_afford.round} #{
+		puts "\nYou can afford #{max_afford.floor} #{
 			implant.capitalize} implants."
 
 		puts "\nHow many #{implant.capitalize} do you buy?"
