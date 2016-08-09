@@ -28,13 +28,13 @@ class Station
 		@station = station
 		@implants = {
 			# implant: [get_price(max_quantity, slope, y-intercept)]
-			"spike": get_price(45, -17, 1300),		# Gives 1 free turn
-			"flex": get_price(65, -9, 900),			# Increase carry capacity 20%
+			"spike": get_price(45, -17, 1300),			# Gives 1 free turn
+			"flex": get_price(65, -9, 900),				# Increase carry capacity 20%
 			"rage": get_price(50, -21, 1500),			# Increase damage 20%
-			"sight": get_price(10, -1000, 25000),		# Preview price changes
-			"sleep": get_price(100, -0.55, 65),		# Lose a turn
+			"sight": get_price(10, -1000, 25000),		# Increase prices 10%
+			"sleep": get_price(100, -0.55, 65),			# Lose a turn
 			"swap": get_price(30, -83, 3500),			# Reduce prices 10%
-			"fount": get_price(20, -450, 14000)		# Restore health
+			"fount": get_price(20, -450, 14000)			# Restore health
 		}
 
 	end
