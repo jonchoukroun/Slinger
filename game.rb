@@ -10,7 +10,7 @@
 # Pull classes from other files
 require_relative 'player'
 require_relative 'station'
-require_relative 'events'
+# require_relative 'events'
 
 class Game
 	# Constants access implants values
@@ -57,8 +57,13 @@ class Game
 
 	end
 
+	# Methods that end the game by returning true
 	def finished?
 		@turns == 0
+	end
+
+	def alive?
+		@new_player.health <= 0
 	end
 
 	def end_game
@@ -378,4 +383,5 @@ class Game
 end
 
 play = Game.new
-play.start_game
+# play.start_game
+puts play.alive?
