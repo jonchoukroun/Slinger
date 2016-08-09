@@ -185,6 +185,8 @@ class Game
 			@new_player.change_inventory(implant, -amount)
 		}
 
+		@new_player.change_health(-10)
+
 		system 'clear'
 		puts """
 		A Glitcher corners you on the subway platform.
@@ -196,6 +198,8 @@ class Game
 
 		puts "Press ENTER to continue..."
 		gets.chomp
+
+		end_game unless alive?
 	end
 
 	# Pick implant to find package of
