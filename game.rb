@@ -30,7 +30,8 @@ class Game
 		@new_player = Player.new
 		system 'clear'
 		@new_player.get_name
-		# @new_player.change_inventory(:spike, 20)		# Add spike for testing
+		@new_player.change_inventory(:spike, 20)		# Add spike for testing
+		@new_player.change_inventory(:rage, 10)		# Add spike for testing
 
 		# Start downtown
 		@current_station = Station.new("Downtown")
@@ -63,9 +64,10 @@ class Game
 	end
 
 	def alive?
-		@new_player.health <= 0
+		@new_player.health > 0
 	end
 
+	# Game over screen
 	def end_game
 		system 'clear'
 		puts BREAK
@@ -82,10 +84,12 @@ class Game
 		exit!
 	end
 
+	# Increment turn each time location changes
 	def take_turn
 		@turns -=1 
 	end
 
+	# Intro to game after player name prompt
 	def start_game
 		puts """
 		#{BREAK}
@@ -149,13 +153,62 @@ class Game
 		game_menu
 	end
 
+	# Methods for specific random events, return change to @new_player stats
+	# Collectors reduce health by 30 points
+	def collector
+		# return 0 if @new_player.debt = 0
+		probability = 0.017 * ((@new_player.debt.to_i - 2000) / 1000)
+		return false unless rand(1..100) < probability * 100
+
+		system 'clear'
+		puts """
+		A team of GeneTech Bank collectors surrounds you as you leave the train.
+
+		They lecture you on the importance of paying one's debts, and
+		responsibility in general.
+		To teach you a lesson, they pin you down while the Chief Collector cuts
+		off one of your fingers with a pair of pruning shears.
+		"""
+
+		puts "Press ENTER to continue..."
+		gets.chomp
+	end
+
+	# Glitcher takes all implants in inventory
+	def glitcher
+		return false unless rand(0..100) < 50		# Change to 5
+
+		@new_player.inventory.each { |implant, amount|
+			print "i = #{implant}, a = #{amount}\n" if amount > 0
+			@new_player.change_inventory(implant, -amount)
+		}
+
+		# system 'clear'
+		puts """
+		A Glitcher corners you on the subway platform.
+
+		She's too strong for you to fight, and too fast for you to run.
+		Without a word she slams you into a wall and tears into your coat.
+		She takes all your implants, but at least you're still alive.
+		"""
+		puts @new_player.inventory
+		puts "Press ENTER to continue..."
+		gets.chomp
+	end
+
+	# Call each time location changes
 	def new_turn
 		if finished?
 			end_game
 		else
 			@new_player.incur_debt
-			@event = Events.new(@new_player.health, @new_player.debt, @new_player.inventory)
-			@event.occurence?
+			
+			# Random events
+			glitcher
+			
+			@new_player.change_health(-30) if collector
+			end_game unless alive?
+
 			game_menu
 		end
 	end
@@ -384,4 +437,4 @@ end
 
 play = Game.new
 # play.start_game
-puts play.alive?
+puts play.new_turn
