@@ -1,11 +1,11 @@
 # Slinger
-## Version 1.1
+### Version 1.1
 
-### ...Los Angeles, in the near future
-### Can you stay alive long enough to earn a fortune selling neural implants on the black market?
+#### ...Los Angeles, in the near future
+#### Can you stay alive long enough to earn a fortune selling neural implants on the black market?
 
-## Installation Instructions
-1) Access your Command Line (Terminal for OSX) and enter:
+### Installation Instructions
+1) Access your Command Line (Terminal for OSX)* and enter:
     ruby -v
 If you are running Ruby 2.3... great! Move on to step 4.
 
