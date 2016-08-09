@@ -8,6 +8,7 @@
 1) Access your Command Line (Terminal for OSX)* and enter:
     ruby -v
 If you are running Ruby 2.3... great! Move on to step 4.
+* For help with the Command Line, see Zed Shaw's [Command Line Crash Course] (http://learnrubythehardway.org/book/appendixa.html)
 
 2) Your Ruby version is incompatible with the game, so if you choose to update,
 go to brew.sh in your browser to install the Homebrew package manager.
