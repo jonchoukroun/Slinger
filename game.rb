@@ -30,8 +30,8 @@ class Game
 		@new_player = Player.new
 		system 'clear'
 		@new_player.get_name
-		@new_player.change_inventory(:spike, 20)		# Add spike for testing
-		@new_player.change_inventory(:rage, 10)		# Add spike for testing
+		# @new_player.change_inventory(:spike, 20)		# Add spike for testing
+		# @new_player.change_inventory(:rage, 10)		# Add spike for testing
 
 		# Start downtown
 		@current_station = Station.new("Downtown")
@@ -195,6 +195,31 @@ class Game
 		gets.chomp
 	end
 
+	# Pick implant to find package of
+	def random_implant
+		@new_player.inventory.keys[rand(0...@new_player.inventory.length)]
+	end
+
+	def package
+		return false unless rand(0..100) < 10
+
+		implant = random_implant
+		amount = rand(1..5)
+
+		@new_player.change_inventory(implant, amount)
+
+		system 'clear'
+		puts """
+		You find a backpack on the seat next to you.
+		
+		Inside you find #{amount} #{implant} implants.
+		Today must be your lucky day.
+		"""
+
+		puts "Press ENTER to continue..."
+		gets.chomp
+	end
+
 	# Call each time location changes
 	def new_turn
 		if finished?
@@ -204,10 +229,13 @@ class Game
 			
 			# Random events
 			glitcher
+
+			package
 			
 			@new_player.change_health(-30) if collector
 			end_game unless alive?
 
+			# Continue to main menu
 			game_menu
 		end
 	end
@@ -436,4 +464,4 @@ end
 
 play = Game.new
 # play.start_game
-puts play.new_turn
+play.new_turn
